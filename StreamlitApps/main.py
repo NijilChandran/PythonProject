@@ -39,7 +39,7 @@ def streamlitWebApp():
     st.area_chart(q1_df['amount'].astype(str))
     st.bar_chart([q1_sales.values(),q2_sales.values()])
 
-    st.image(image=Image.open("flower_peacock.JPG"), caption="art")
+    st.image(image=Image.open("visualization.png"), caption="imageupload")
 
     if st.button('Show Q2 data'):
         st.table(q2_df)
@@ -62,7 +62,11 @@ def streamlitWebApp():
         st.line_chart(q2_df['amount'].astype(str))
     elif sel_qtr== 'Q1':
         st.line_chart(q1_df['amount'].astype(str))
-        
+
+    st.write(st.slider('quarters',1,4,(1,2)))
+    st.write(st.multiselect('Choose quarters',['Q1','Q2','Q3','Q4']))
+    st.write(st.number_input('Which quarters',1,4))
+
 if __name__ == '__main__':
     txt = "Hello World!"
     #print_hi(txt)
