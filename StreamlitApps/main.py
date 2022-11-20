@@ -5,7 +5,6 @@ from PIL import Image
 def print_hi(name):
     st.title(name)
 
-
 def streamlitWebApp():
     st.title("Sales Report")
     st.header('Q1 Results')
@@ -28,6 +27,8 @@ def streamlitWebApp():
     q2_sales
 
     q1_df = pd.DataFrame(q1_sales.items(), columns=['month', 'amount'])
+    q2_df = pd.DataFrame(q2_sales.items(), columns=['month', 'amount'])
+
     'Display as a table '
     st.table(q1_df)
     'Display as a dataframe '
@@ -40,7 +41,28 @@ def streamlitWebApp():
 
     st.image(image=Image.open("flower_peacock.JPG"), caption="art")
 
+    if st.button('Show Q2 data'):
+        st.table(q2_df)
+    else:
+        st.table(q1_df)
 
+    if st.checkbox('Show Q2 data'):
+        st.line_chart(q2_df['amount'].astype(str))
+    else:
+        st.line_chart(q1_df['amount'].astype(str))
+
+    qtr = st.radio('Select a Quarter', ('Q1','Q2'))
+    if qtr == 'Q2':
+        st.area_chart(q2_df['amount'].astype(str))
+    elif qtr== 'Q1':
+        st.area_chart(q1_df['amount'].astype(str))
+
+    sel_qtr = st.selectbox('Select a Quarter', ('Q1','Q2'))
+    if sel_qtr == 'Q2':
+        st.line_chart(q2_df['amount'].astype(str))
+    elif sel_qtr== 'Q1':
+        st.line_chart(q1_df['amount'].astype(str))
+        
 if __name__ == '__main__':
     txt = "Hello World!"
     #print_hi(txt)
