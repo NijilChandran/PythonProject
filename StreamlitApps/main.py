@@ -1,9 +1,16 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+import time
 
 def print_hi(name):
     st.title(name)
+
+@st.cache(max_entries=2,ttl=120)
+def download_data(qtr):
+    sales = [1000,2000,3000,4000]
+    time.sleep(2)
+    return sales[qtr-1]
 
 def streamlitWebApp():
     st.title("Sales Report")
@@ -20,7 +27,8 @@ def streamlitWebApp():
     q1_df = pd.DataFrame(q1_sales.items(), columns=['month', 'amount'])
     q2_df = pd.DataFrame(q2_sales.items(), columns=['month', 'amount'])
 
-    section = st.sidebar.radio("Select type of Visualization",("Text","Charts","Widgets","More Widgets"))
+    section = st.sidebar.radio("Select type of Visualization",
+                               ("Text","Charts","Widgets","More Widgets","Caching"))
 
     if section == 'Text':
         display_text(q1_df, q1_sales, q2_sales)
@@ -30,7 +38,10 @@ def streamlitWebApp():
         display_widgets(q1_df, q2_df)
     elif section == 'More Widgets':
         display_more_widgets()
-
+    elif section == 'Caching':
+        qtr = st.number_input('Which Quarter?',1,4)
+        sales_amt = download_data(qtr)
+        st.write(sales_amt)
 
 def display_more_widgets():
     st.write(st.slider('quarters', 1, 4, (1, 2)))
